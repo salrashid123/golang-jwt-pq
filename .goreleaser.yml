@@ -1,0 +1,34 @@
+project_name: golang-jwt-pqc
+version: 2
+release:
+  draft: true
+  github:
+    owner: salrashid123
+    name: golang-jwt-pqc
+  name_template: '{{.Tag}}'
+  extra_files:
+builds:
+- skip: true
+archives:
+  - id: archive
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'
+    formats: [ 'tar.gz' ]
+    files:
+      - LICENSE*
+      - README*    
+      - dist/*.sig      
+snapshot:
+  version_template: '{{ .Version }}-SNAPSHOT-{{ .ShortCommit }}'
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
+  algorithm: sha256
+dist: dist
+env_files:
+  github_token: ~/.config/goreleaser/github_token
+source:
+  name_template: '{{ .ProjectName }}-{{ .Version }}'
+  format: tar.gz
+gomod:
+  gobinary: go
+github_urls:
+  download: https://github.com
